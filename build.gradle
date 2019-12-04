@@ -1,0 +1,68 @@
+apply plugin: 'java'
+
+project.ext {
+    cucumberVersion = '1.2.5'
+    junitVersion = '4.12'
+}
+
+dependencies {
+   /* testCompile "info.cukes:cucumber-java:${cucumberVersion}"
+    testCompile "info.cukes:cucumber-junit:${cucumberVersion}"
+    testCompile 'info.cukes:gherkin:2.12.2'
+   // testCompile 'ch.qos.logback:logback-classic:1.2.3'
+    testCompile 'com.epam.reportportal:logger-java-logback:4.0.0'
+
+    testCompile "junit:junit:${junitVersion}"
+    compile 'com.epam.reportportal:agent-java-cucumber:4.0.2'*/
+
+
+    compile 'io.cucumber:cucumber-core:4.8.0'
+    compile 'io.cucumber:cucumber-testng:4.8.0'
+    compile 'io.cucumber:cucumber-java:4.8.0'
+    compile 'com.epam.reportportal:agent-java-cucumber4:4.1.0'
+
+    compile 'io.cucumber:cucumber-junit:4.8.0'
+
+    compile "junit:junit:4.12"
+    compile 'org.testng:testng:6.9.9'
+/*    compile 'commons-codec:commons-codec:1.10'
+    compile 'commons-logging:commons-logging:1.2'
+    compile 'org.apache.httpcomponents:httpclient:4.5.6'
+    compile 'org.apache.httpcomponents:httpcore:4.4.10'*/
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.29'
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+    testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.29'
+
+
+
+
+
+
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url "http://dl.bintray.com/epam/reportportal" }
+    maven { url 'https://jitpack.io' }
+}
+
+test {
+    useTestNG(){
+        try{
+            suites 'src/test/resources/testng.xml'
+        }catch(e){
+            print e.getMessage()
+        }
+        ignoreFailures = true
+
+    }
+
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+    testLogging {
+         exceptionFormat "full" // default is "short"
+        events  "passed", "failed", "standardOut", "standardError"
+    }
+}
